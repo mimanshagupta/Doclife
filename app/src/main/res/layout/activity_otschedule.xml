@@ -6,26 +6,22 @@
     android:layout_height="match_parent"
     android:elevation="7dp">
 
-
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@drawable/blg">
-
 
         <include
             android:id="@+id/tool_bar"
             layout="@layout/tool_bar">
         </include>
 
-        <!--Start editing for Patient Center here-->
-        <TextView
-            android:layout_width="wrap_content"
+        <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-    </LinearLayout>
 
+
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/RecyclerView"

@@ -22,6 +22,10 @@
             android:name=".DoctorMode"
             android:label="@string/title_activity_doctor_mode" >
         </activity>
+        <activity
+            android:name=".OTSchedule"
+            android:label="@string/title_activity_otschedule" >
+        </activity>
     </application>
 
 </manifest>
