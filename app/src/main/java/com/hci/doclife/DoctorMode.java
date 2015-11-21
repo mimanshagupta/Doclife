@@ -1,41 +1,21 @@
 package com.hci.doclife;
 
-import android.app.Activity;
-import android.app.SearchManager;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.support.v4.view.GravityCompat;
+import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
-import android.os.Bundle;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.GestureDetector;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.Locale;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DoctorMode extends ActionBarActivity {
@@ -52,13 +32,17 @@ public class DoctorMode extends ActionBarActivity {
     RecyclerView.Adapter mAdapter;                        // Declaring Adapter For Recycler View
     RecyclerView.LayoutManager mLayoutManager;            // Declaring Layout Manager as a linear layout manager
     DrawerLayout Drawer;                                  // Declaring DrawerLayout
-
+    List<Persons> persons;
     ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.doctor_mode);
+        persons = new ArrayList<>();
+        persons.add(new Persons("Emma Wilson", "23 years old", R.drawable.ic_patient));
+        persons.add(new Persons("Lavery Maiss", "25 years old", R.drawable.ic_patient));
+        persons.add(new Persons("Lillie Watts", "35 years old", R.drawable.ic_patient));
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);
@@ -138,6 +122,13 @@ public class DoctorMode extends ActionBarActivity {
         mDrawerToggle.syncState();
 
         //add everything needed for Patient Center here :)
+        RecyclerView recList = (RecyclerView) findViewById(R.id.rv);
+        recList.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recList.setLayoutManager(llm);
+        RVAdapter adapter = new RVAdapter(persons);
+        recList.setAdapter(adapter);
     }
 
     @Override
