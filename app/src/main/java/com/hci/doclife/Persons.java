@@ -7,11 +7,14 @@ public class Persons {
    String name;
     String age;
     int photoId;
+    String details;
 
-    Persons(String name, String age, int photoId) {
+    Persons(String name, String age, int photoId,String details) {
         this.name = name;
         this.age = age;
         this.photoId = photoId;
+        this.details=details;
+
     }
 
 

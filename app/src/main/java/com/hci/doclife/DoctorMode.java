@@ -40,9 +40,9 @@ public class DoctorMode extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.doctor_mode);
         persons = new ArrayList<>();
-        persons.add(new Persons("Emma Wilson", "23 years old", R.drawable.ic_patient));
-        persons.add(new Persons("Lavery Maiss", "25 years old", R.drawable.ic_patient));
-        persons.add(new Persons("Lillie Watts", "35 years old", R.drawable.ic_patient));
+        persons.add(new Persons("Emma Wilson", "23 years old", R.drawable.ic_patient,"Amnesia since 2010"));
+        persons.add(new Persons("Lavery Maiss", "25 years old", R.drawable.ic_patient,"By-Pass surgery,2015"));
+        persons.add(new Persons("Lillie Watts", "35 years old", R.drawable.ic_patient,"Lung Cancer last stage,2009"));
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);
@@ -127,7 +127,7 @@ public class DoctorMode extends ActionBarActivity {
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
-        RVAdapter adapter = new RVAdapter(persons);
+        RVAdapter adapter = new RVAdapter(persons,this);
         recList.setAdapter(adapter);
     }
 
