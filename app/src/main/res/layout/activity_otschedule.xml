@@ -6,22 +6,58 @@
     android:layout_height="match_parent"
     android:elevation="7dp">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:background="@drawable/blg">
+
 
         <include
             android:id="@+id/tool_bar"
             layout="@layout/tool_bar">
         </include>
 
-        <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <!--Start editing for Patient Center here-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="100dp"
+            android:orientation="horizontal">
 
+            <Button
+                android:id="@+id/setDateButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  Select Date  "
+                />
 
+            <TextView
+                android:id="@+id/setDateTextView"
+                android:layout_width="150dp"
+                android:gravity="center"
+                android:layout_marginLeft="15dp"
+                android:layout_height="35dp"
+                android:background="#ffffff"/>
 
-    </LinearLayout>
+        </LinearLayout>
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="200dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp">
+            <TableLayout
+                android:id="@+id/otScheduleTable"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:scrollbars="vertical"
+                android:shrinkColumns="*"
+                android:stretchColumns="*" />
+        </ScrollView>
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/RecyclerView"
