@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hci.doclife" >
+    package="com.hci.doclife">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -8,10 +8,10 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,12 +20,18 @@
         </activity>
         <activity
             android:name=".DoctorMode"
-            android:label="@string/title_activity_doctor_mode" >
-        </activity>
+            android:label="@string/title_activity_doctor_mode" />
         <activity
             android:name=".OTSchedule"
-            android:label="@string/title_activity_otschedule" >
-        </activity>
+            android:label="@string/title_activity_otschedule" />
+        <activity
+            android:name=".LabReportCentre"
+            android:label="@string/title_activity_lab_report_centre"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".AdminMode"
+            android:label="@string/title_activity_admin_mode"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

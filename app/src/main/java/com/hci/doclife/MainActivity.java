@@ -3,17 +3,14 @@ package com.hci.doclife;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener{
@@ -36,6 +33,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 public void onClick(DialogInterface dialog, int which) {
                     if (which == 0) {
                         Intent i = new Intent(MainActivity.this, DoctorMode.class);
+                        startActivity(i);
+                    }
+                    if (which == 1) {
+                        Intent i = new Intent(MainActivity.this, AdminMode.class);
                         startActivity(i);
                     }
                 }

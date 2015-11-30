@@ -8,6 +8,9 @@ public class Persons {
     String age;
     int photoId;
     String details;
+    String Report;
+    int id;
+
 
     Persons(String name, String age, int photoId,String details) {
         this.name = name;
@@ -15,6 +18,12 @@ public class Persons {
         this.photoId = photoId;
         this.details=details;
 
+    }
+
+    Persons(int id,String name,String Report ){
+        this.id= id;
+        this.name=name;
+        this.Report=Report;
     }
 
 

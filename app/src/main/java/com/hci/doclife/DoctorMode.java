@@ -81,6 +81,10 @@ public class DoctorMode extends ActionBarActivity {
                         Intent i = new Intent(DoctorMode.this, OTSchedule.class);
                         startActivity(i);
                     }
+                    if (recyclerView.getChildPosition(child) == 2) {
+                        Intent i = new Intent(DoctorMode.this,LabReportCentre.class);
+                        startActivity(i);
+                    }
                     return true;
 
                 }

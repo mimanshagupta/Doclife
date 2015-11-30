@@ -20,6 +20,8 @@
     <string name="title_activity_otschedule">OTSchedule</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_lab_report_centre">LabReportCentre</string>
+    <string name="title_activity_admin_mode">AdminMode</string>
 
 
 </resources>
