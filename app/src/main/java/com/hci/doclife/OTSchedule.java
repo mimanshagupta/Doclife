@@ -2,7 +2,10 @@ package com.hci.doclife;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -24,6 +27,7 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -229,6 +233,14 @@ public class OTSchedule extends ActionBarActivity implements DatePicker.OnDateCh
 
             TableRow tableRow = new TableRow(this);
             tableRow.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            tableRow.setFocusable(true);
+            tableRow.setFocusableInTouchMode(true);
+            tableRow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
 
             TextView otnumber = new TextView(this);
             String otnumberString = list.get(i).getOtName();
@@ -249,7 +261,7 @@ public class OTSchedule extends ActionBarActivity implements DatePicker.OnDateCh
             TextView day = new TextView(this);
             String dayString = list.get(i).getDate();
             day.setText(dayString);
-            day.setPadding(25,25,25,25);
+            day.setPadding(25, 25, 25, 25);
             day.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
             day.setBackgroundResource(R.drawable.cell_shape);
             tableRow.addView(day);
@@ -294,22 +306,21 @@ public class OTSchedule extends ActionBarActivity implements DatePicker.OnDateCh
         //Log.d("mushu", dayOfWeek);
         //setDateTextView.setText(dayOfWeek);
 
-        if(dayOfWeek == "Monday"){
-
-        } else if(dayOfWeek.equals("Tuesday")) {
-
-
-
-        } else if(dayOfWeek.equals("Wednesday")) {
-
-        } else if(dayOfWeek.equals("Thursday")) {
-
-        } else if (dayOfWeek.equals("Friday")) {
-
-        } else if(dayOfWeek.equals("Saturday")) {
-
-        } else {
-
+        for(int i=0;i<24;i++)
+        {
+            TableRow row = (TableRow)tableLayout.getChildAt(i);
+            TextView rowData = (TextView)row.getChildAt(2); // get child index on particular row
+            String text = rowData.getText().toString();
+            for(int j = 0; j < 3; j++) {
+                rowData = (TextView)row.getChildAt(j);
+                if(dayOfWeek.equals(text)){
+                    rowData.setBackgroundResource(R.color.ColorPrimary);
+                }
+                else {
+                    rowData.setBackgroundResource(R.color.tablewhite);
+                }
+                //Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
