@@ -85,9 +85,13 @@ public class LabReportCentre extends AppCompatActivity {
 
                 if (child != null && mGestureDetector.onTouchEvent(motionEvent)) {
                     Drawer.closeDrawers();
-                    //Toast.makeText(DoctorMode.this, "The Item Clicked is: " + recyclerView.getChildPosition(child), Toast.LENGTH_SHORT).show();
+                    //On click of particular value in the drawer, the corresponding class is called. It is generated according to the ID of value selcted)
                     if (recyclerView.getChildPosition(child) == 1) {
                         Intent i = new Intent(LabReportCentre.this, DoctorMode.class);
+                        startActivity(i);
+                    }
+                    if (recyclerView.getChildPosition(child) == 3) {
+                        Intent i = new Intent(LabReportCentre.this, SearchDispensary.class);
                         startActivity(i);
                     }
                     return true;
@@ -132,63 +136,65 @@ public class LabReportCentre extends AppCompatActivity {
 
     }
 
+    //This method is used to build the table that contains the Patient Report information such as PatientID,name and report details
     private void buildtable(int rows, int cols) {
 
-
+       //Creates the table header row with the column names as PatientID,Name,Report
         TableRow tableHead = new TableRow(this);
         tableHead.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        TextView labelOT = new TextView(this);
-        labelOT.setText("PatientID");
-        labelOT.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
-        labelOT.setBackgroundResource(R.drawable.cell_header);
-        labelOT.setPadding(25, 25, 25, 25);
-        tableHead.addView(labelOT);
+        TextView labelID = new TextView(this);
+        labelID.setText("PatientID");
+        labelID.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+        labelID.setBackgroundResource(R.drawable.cell_header);
+        labelID.setPadding(25, 25, 25, 25);
+        tableHead.addView(labelID);
 
-        TextView labelDepartment = new TextView(this);
-        labelDepartment.setText("Patient Name");
-        labelDepartment.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
-        labelDepartment.setBackgroundResource(R.drawable.cell_header);
-        labelDepartment.setPadding(25, 25, 25, 25);
-        tableHead.addView(labelDepartment);
+        TextView labelname = new TextView(this);
+        labelname.setText("Patient Name");
+        labelname.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+        labelname.setBackgroundResource(R.drawable.cell_header);
+        labelname.setPadding(25, 25, 25, 25);
+        tableHead.addView(labelname);
 
-        TextView labelDate = new TextView(this);
-        labelDate.setText("Report Name");
-        labelDate.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
-        labelDate.setBackgroundResource(R.drawable.cell_header);
-        labelDate.setPadding(25, 25, 25, 25);
-        tableHead.addView(labelDate);
+        TextView labelreport = new TextView(this);
+        labelreport.setText("Report Name");
+        labelreport.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+        labelreport.setBackgroundResource(R.drawable.cell_header);
+        labelreport.setPadding(25, 25, 25, 25);
+        tableHead.addView(labelreport);
 
         table.addView(tableHead, new TableLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         for(int i = 0; i < rows; i++) {
+            //Populates the row with report details from database
 
             TableRow tableRow = new TableRow(this);
             tableRow.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-            TextView otnumber = new TextView(this);
-            String otnumberString = ""+patients.get(i).id;
-            otnumber.setText(otnumberString);
-            otnumber.setPadding(25, 25, 25, 25);
-            otnumber.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
-            otnumber.setBackgroundResource(R.drawable.cell_shape);
-            tableRow.addView(otnumber);
+            TextView idnumber = new TextView(this);
+            String idnumberString = ""+patients.get(i).id;
+            idnumber.setText(idnumberString);
+            idnumber.setPadding(25, 25, 25, 25);
+            idnumber.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+            idnumber.setBackgroundResource(R.drawable.cell_shape);
+            tableRow.addView(idnumber);
 
-            TextView department = new TextView(this);
-            String departmentString = patients.get(i).name;
-            department.setText(departmentString);
-            department.setPadding(25,25,25,25);
-            department.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
-            department.setBackgroundResource(R.drawable.cell_shape);
-            tableRow.addView(department);
+            TextView name = new TextView(this);
+            String nameString = patients.get(i).name;
+            name.setText(nameString);
+            name.setPadding(25, 25, 25, 25);
+            name.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+            name.setBackgroundResource(R.drawable.cell_shape);
+            tableRow.addView(name);
 
-            TextView day = new TextView(this);
-            String dayString = patients.get(i).Report;
-            day.setText(dayString);
-            day.setPadding(25,25,25,25);
-            day.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
-            day.setBackgroundResource(R.drawable.cell_shape);
-            tableRow.addView(day);
+            TextView report = new TextView(this);
+            String reportString = patients.get(i).Report;
+            report.setText(reportString);
+            report.setPadding(25, 25, 25, 25);
+            report.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+            report.setBackgroundResource(R.drawable.cell_shape);
+            tableRow.addView(report);
 
             table.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             table.canScrollVertically(1);

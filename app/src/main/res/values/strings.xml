@@ -22,6 +22,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_lab_report_centre">LabReportCentre</string>
     <string name="title_activity_admin_mode">AdminMode</string>
+    <string name="title_activity_search_dispensary">searchDispensary</string>
+    <string name="title_activity_member_menu">MemberMenu</string>
 
 
 </resources>

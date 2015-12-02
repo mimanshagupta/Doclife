@@ -13,22 +13,23 @@ import android.widget.Toast;
 
 import java.util.List;
 
-/**
+/** This class is a custom adapter for the patient card views implemented in the doctor mode class
+ * It instantiates the layout of the card with item.xml and additionaly
+ * implement an on click listener that displays a dialogue box when a card is clicked
  * Created by Manasi on 21-11-2015.
  */
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
     Context ctx;
    static int id;
 
-
-
+    // Creating ViewHolder inner class custom to the Person class
     public static class PersonViewHolder extends RecyclerView.ViewHolder  {
         CardView cv;
         TextView personName;
         TextView personAge;
         ImageView personPhoto;
 
-
+     //ViewHolder constructor with itemView as a paramter. This instantiates the card form the layout to the viewholder
         PersonViewHolder(View itemView) {
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.cv);
@@ -42,6 +43,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
 
     List<Persons> persons;
 
+    //Constructor for the custom adpater for cardview
     RVAdapter(List<Persons> persons, Context ctx){
         this.persons = persons;
         this.ctx=ctx;
@@ -52,9 +54,13 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
         return persons.size();
     }
 
+
+    //Below first we ovverride the method onCreateViewHolder which is called when the ViewHolder is
+    //Created, In this method we inflate the item.xml
+
     @Override
     public PersonViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item, viewGroup, false); //getting the layout from item
 //        v.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -72,12 +78,17 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
 //            }
 //        });
         PersonViewHolder pvh = new PersonViewHolder(v);
+        //returns a viewholder of type personviewholder
         return pvh;
     }
 
+    //Next we override a method which is called when the item in a row is needed to be displayed, here the int position
+    // Tells us item at which position is being constructed to be displayed and the holder id of the holder object tell us
+    // which view type is being created 1 for item row
     @Override
     public void onBindViewHolder(PersonViewHolder personViewHolder, final int i) {
 
+        //Personviewholder that displays the person object and its member variables
         personViewHolder.personName.setText(persons.get(i).name);
         personViewHolder.personAge.setText(persons.get(i).age);
         personViewHolder.personPhoto.setImageResource(persons.get(i).photoId);
@@ -85,6 +96,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
 
             @Override
             public void onClick(View v) {
+                //Creates a dialogue box on click
                 Persons p= displayinfo(i);
                 Toast.makeText(v.getContext(), "" + id, Toast.LENGTH_SHORT).show();
                 AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
@@ -93,7 +105,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
                 builder.setView(view);
                 AlertDialog flooralert = builder.create();
                 flooralert.show();
-
+                //Displays the name and patient details retreived from person object
                 TextView name = (TextView) view.findViewById(R.id.name);
                 TextView details=(TextView)view.findViewById(R.id.patienthistory);
                 details.setText(persons.get(i).details);
@@ -110,12 +122,13 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
         super.onAttachedToRecyclerView(recyclerView);
     }
 
+    //Custom method to get the patient information of the card clicked
     public Persons displayinfo( int i){
         Persons p= this.getItem(i);
         return p;
     }
 
-
+    //Returns the Persons object at a particular position
     public Persons getItem(int position) {
         return persons.get(position);
     }

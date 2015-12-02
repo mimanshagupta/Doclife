@@ -1,5 +1,6 @@
 package com.hci.doclife;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -24,11 +25,11 @@ import java.util.List;
 public class AdminMode extends AppCompatActivity {
 
     private Toolbar toolbar;
-    String TITLES[] = {"Bed Status", "Search Dispensary", "OT Schedule", "Member menu"};
-    int ICONS[] = {R.drawable.ic_patient,R.drawable.ic_searchdispensary, R.drawable.ic_otschedule, R.drawable.ic_clipboard};
+    String TITLES[] = {"Bed Status", "Search Dispensary", "OT Schedule"};
+    int ICONS[] = {R.drawable.ic_patient,R.drawable.ic_searchdispensary, R.drawable.ic_otschedule};
 
-    String NAME = "Dr. Mimansha Gupta";
-    String EMAIL = "doctor@hospital.com";
+    String NAME = "Ms. Manasi Jayaraman";
+    String EMAIL = "admin@hospital.com";
     int PROFILE = R.mipmap.ic_launcher;
 
     RecyclerView mRecyclerView;                           // Declaring RecyclerView
@@ -43,7 +44,7 @@ public class AdminMode extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lab_report_centre);
+        setContentView(R.layout.content_admin_mode);
         beds= new ArrayList<>();
 
         table=(TableLayout)findViewById(R.id.labreportcentre); //Getting the table from the xml layout
@@ -88,11 +89,22 @@ public class AdminMode extends AppCompatActivity {
 
                 if (child != null && mGestureDetector.onTouchEvent(motionEvent)) {
                     Drawer.closeDrawers();
-                    //Toast.makeText(DoctorMode.this, "The Item Clicked is: " + recyclerView.getChildPosition(child), Toast.LENGTH_SHORT).show();
+                    //On click of particular value in the drawer, the corresponding class is called. It is generated according to the ID of value selcted
                     if (recyclerView.getChildPosition(child) == 1) {
-                        //Intent i = new Intent(AdminMode.this, DoctorMode.class);
-                       // startActivity(i);
+                        Intent i = new Intent(AdminMode.this, AdminMode.class);
+                        startActivity(i);
                     }
+                    if (recyclerView.getChildPosition(child) == 2) {
+                        Intent i = new Intent(AdminMode.this, SearchDispensaryAdmin.class);
+                        i.putExtra("Titles", TITLES);
+                        i.putExtra("Icons", ICONS);
+                        startActivity(i);
+                    }
+                    if (recyclerView.getChildPosition(child) == 3) {
+                        Intent i = new Intent(AdminMode.this, OTSchedule.class);
+                        startActivity(i);
+                    }
+
                     return true;
 
                 }
@@ -135,63 +147,64 @@ public class AdminMode extends AppCompatActivity {
 
     }
 
+    //This function builds the table and fills the rows and cols with the ward name,total beds and occupied beds
     private void buildtable(int rows, int cols) {
-
-
+        //Creates the heading row that displays the heading of the columns
         TableRow tableHead = new TableRow(this);
         tableHead.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        TextView labelOT = new TextView(this);
-        labelOT.setText("Ward Name");
-        labelOT.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
-        labelOT.setBackgroundResource(R.drawable.cell_header);
-        labelOT.setPadding(25, 25, 25, 25);
-        tableHead.addView(labelOT);
+        TextView labelward = new TextView(this);
+        labelward.setText("Ward Name");
+        labelward.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+        labelward.setBackgroundResource(R.drawable.cell_header);
+        labelward.setPadding(25, 25, 25, 25);
+        tableHead.addView(labelward);
 
-        TextView labelDepartment = new TextView(this);
-        labelDepartment.setText("Total beds");
-        labelDepartment.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
-        labelDepartment.setBackgroundResource(R.drawable.cell_header);
-        labelDepartment.setPadding(25, 25, 25, 25);
-        tableHead.addView(labelDepartment);
+        TextView labelbeds = new TextView(this);
+        labelbeds.setText("Total beds");
+        labelbeds.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+        labelbeds.setBackgroundResource(R.drawable.cell_header);
+        labelbeds.setPadding(25, 25, 25, 25);
+        tableHead.addView(labelbeds);
 
-        TextView labelDate = new TextView(this);
-        labelDate.setText("Occupied beds");
-        labelDate.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
-        labelDate.setBackgroundResource(R.drawable.cell_header);
-        labelDate.setPadding(25, 25, 25, 25);
-        tableHead.addView(labelDate);
+        TextView labeloccbeds = new TextView(this);
+        labeloccbeds.setText("Occupied beds");
+        labeloccbeds.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+        labeloccbeds.setBackgroundResource(R.drawable.cell_header);
+        labeloccbeds.setPadding(25, 25, 25, 25);
+        tableHead.addView(labeloccbeds);
 
         table.addView(tableHead, new TableLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
+        //Populate the other rows of the table with the data from the database
         for(int i = 0; i < rows; i++) {
 
             TableRow tableRow = new TableRow(this);
             tableRow.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-            TextView otnumber = new TextView(this);
+            TextView wardnumber = new TextView(this);
             String otnumberString = ""+beds.get(i).ward;
-            otnumber.setText(otnumberString);
-            otnumber.setPadding(25, 25, 25, 25);
-            otnumber.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
-            otnumber.setBackgroundResource(R.drawable.cell_shape);
-            tableRow.addView(otnumber);
+            wardnumber.setText(otnumberString);
+            wardnumber.setPadding(25, 25, 25, 25);
+            wardnumber.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+            wardnumber.setBackgroundResource(R.drawable.cell_shape);
+            tableRow.addView(wardnumber);
 
-            TextView department = new TextView(this);
+            TextView totalbednumber = new TextView(this);
             String departmentString =""+ (beds.get(i).total);
-            department.setText(departmentString);
-            department.setPadding(25,25,25,25);
-            department.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
-            department.setBackgroundResource(R.drawable.cell_shape);
-            tableRow.addView(department);
+            totalbednumber.setText(departmentString);
+            totalbednumber.setPadding(25, 25, 25, 25);
+            totalbednumber.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+            totalbednumber.setBackgroundResource(R.drawable.cell_shape);
+            tableRow.addView(totalbednumber);
 
-            TextView day = new TextView(this);
+            TextView occupiedbeds = new TextView(this);
             String dayString = ""+beds.get(i).occupied;
-            day.setText(dayString);
-            day.setPadding(25,25,25,25);
-            day.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
-            day.setBackgroundResource(R.drawable.cell_shape);
-            tableRow.addView(day);
+            occupiedbeds.setText(dayString);
+            occupiedbeds.setPadding(25, 25, 25, 25);
+            occupiedbeds.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
+            occupiedbeds.setBackgroundResource(R.drawable.cell_shape);
+            tableRow.addView(occupiedbeds);
 
             table.addView(tableRow, new TableLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             table.canScrollVertically(1);

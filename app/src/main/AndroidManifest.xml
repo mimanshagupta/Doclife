@@ -31,7 +31,13 @@
         <activity
             android:name=".AdminMode"
             android:label="@string/title_activity_admin_mode"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".SearchDispensary"
+            android:label="@string/title_activity_search_dispensary"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".SearchDispensaryAdmin"/>
     </application>
 
 </manifest>
