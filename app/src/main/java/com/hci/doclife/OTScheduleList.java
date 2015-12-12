@@ -3,7 +3,7 @@ package com.hci.doclife;
 import java.util.Date;
 
 /**
- * Created by Mimansha on 24/11/2015.
+ * Basic structure for OT Schedule table items
  */
 public class OTScheduleList {
     String otName;

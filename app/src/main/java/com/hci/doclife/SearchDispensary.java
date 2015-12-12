@@ -1,49 +1,44 @@
 package com.hci.doclife;
 
-import android.app.Activity;
-import android.app.SearchManager;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.support.v4.view.GravityCompat;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
+import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
-import android.os.Bundle;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.GestureDetector;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
+
+public class SearchDispensary extends AppCompatActivity {
+    // List view
+    private ListView lv;
+   // custom adapter
+    DispensaryAdapter adapter;
+
+    //Values array
+    List <Medicines> medicines;
 
 
-public class DoctorMode extends ActionBarActivity {
+    // Search EditText
+    EditText inputSearch;
 
-    String TITLES[] = {"Patient Center","Lab Report Center","Search Dispensary","OT Schedule", "Duty Schedule", "Emergency Center"};
-    int ICONS[] = {R.drawable.ic_patient,R.drawable.ic_lab, R.drawable.ic_searchdispensary, R.drawable.ic_otschedule, R.drawable.ic_clipboard, R.drawable.ic_danger};
+
+    // ArrayList for Listview
+    ArrayList<HashMap<String, String>> productList;
+
+    String TITLES[] = {"Patient Center","Lab Report Center","Search Dispensary","OT Schedule", "Duty Schedule", "Emergency Center"}; //for nav drawer
+    int ICONS[] = {R.drawable.ic_patient,R.drawable.ic_lab, R.drawable.ic_searchdispensary, R.drawable.ic_otschedule, R.drawable.ic_clipboard, R.drawable.ic_danger}; //for nav drawer
 
     String NAME = "Dr. Mimansha Gupta";
     String EMAIL = "doctor@hospital.com";
@@ -55,18 +50,19 @@ public class DoctorMode extends ActionBarActivity {
     RecyclerView.LayoutManager mLayoutManager;            // Declaring Layout Manager as a linear layout manager
     DrawerLayout Drawer;                                  // Declaring DrawerLayout
     List<Persons> persons;
-
     ActionBarDrawerToggle mDrawerToggle;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.doctor_mode);
+        setContentView(R.layout.activity_search_dispensary);
 
-        persons = new ArrayList<>(); //array list containing patient details
-        persons.add(new Persons("Emma Wilson", "23 years old", R.drawable.ic_patient,"Amnesia since 2010"));
-        persons.add(new Persons("Lavery Maiss", "25 years old", R.drawable.ic_patient,"By-Pass surgery,2015"));
-        persons.add(new Persons("Lillie Watts", "35 years old", R.drawable.ic_patient,"Lung Cancer last stage,2009"));
+        //Add medicine objects to medicines list
+        medicines= new ArrayList<>();
+        medicines.add(new Medicines("Paracetomol", "150 packs\n"));
+        medicines.add(new Medicines("Insulin","150 injections\n"));
+        medicines.add(new Medicines("Lovanix","140 packs\n"));
+        medicines.add(new Medicines("Morphine","120 packs\n"));
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);
@@ -79,7 +75,7 @@ public class DoctorMode extends ActionBarActivity {
 
         mRecyclerView.setAdapter(mAdapter);                              // Setting the adapter to RecyclerView
 
-        final GestureDetector mGestureDetector = new GestureDetector(DoctorMode.this, new GestureDetector.SimpleOnGestureListener() {
+        final GestureDetector mGestureDetector = new GestureDetector(SearchDispensary.this, new GestureDetector.SimpleOnGestureListener() {
 
             @Override public boolean onSingleTapUp(MotionEvent e) {
                 return true;
@@ -100,27 +96,28 @@ public class DoctorMode extends ActionBarActivity {
 
                 if (child != null && mGestureDetector.onTouchEvent(motionEvent)) {
                     Drawer.closeDrawers();
-                    //Fire intent for activity according to choice selected from Nav drawer
+                    //On click of particular value in the drawer, the corresponding class is called. It is generated according to the ID of value selected
                     if (recyclerView.getChildPosition(child) == 4) {
-                        Intent i = new Intent(DoctorMode.this, OTSchedule.class);
+                        Intent i = new Intent(SearchDispensary.this, OTSchedule.class);
                         startActivity(i);
                     }
                     if (recyclerView.getChildPosition(child) == 2) {
-                        Intent i = new Intent(DoctorMode.this,LabReportCentre.class);
-                        startActivity(i);
-                    }
-                    if (recyclerView.getChildPosition(child) == 3) {
-                        Intent i = new Intent(DoctorMode.this,SearchDispensary.class);
+                        Intent i = new Intent(SearchDispensary.this,LabReportCentre.class);
                         startActivity(i);
                     }
                     if (recyclerView.getChildPosition(child) == 5) {
-                        Intent i = new Intent(DoctorMode.this,DutySchedule.class);
+                        Intent i = new Intent(SearchDispensary.this,DutySchedule.class);
+                        startActivity(i);
+                    }
+                    if (recyclerView.getChildPosition(child) == 1) {
+                        Intent i = new Intent(SearchDispensary.this,DoctorMode.class);
                         startActivity(i);
                     }
                     if (recyclerView.getChildPosition(child) == 6) {
-                        Intent i = new Intent(DoctorMode.this,EmergencyCenter.class);
+                        Intent i = new Intent(SearchDispensary.this,EmergencyCenter.class);
                         startActivity(i);
                     }
+
                     return true;
 
                 }
@@ -145,8 +142,7 @@ public class DoctorMode extends ActionBarActivity {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                // code here will execute once the drawer is opened( As I dont want anything happened whe drawer is
-                // open I am not going to put anything here)
+                // code here will execute once the drawer is opened
             }
 
             @Override
@@ -161,33 +157,37 @@ public class DoctorMode extends ActionBarActivity {
         Drawer.setDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
         mDrawerToggle.syncState();
 
-        //This recycler view is for the card view. This sets the cards instantiated on the adapter is displayed on the mainlayout here
-        RecyclerView recList = (RecyclerView) findViewById(R.id.rv);
-        recList.setHasFixedSize(true);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        recList.setLayoutManager(llm);
-        RVAdapter adapter = new RVAdapter(persons,this);
-        recList.setAdapter(adapter);
+        //listview is set to custom adapter searchdispensaryadapter
+        lv = (ListView) findViewById(R.id.list_view);
+        //Edittext for filtering purposes(searching purposes)
+        inputSearch = (EditText) findViewById(R.id.inputSearch);
+
+         adapter= new DispensaryAdapter(this,medicines);
+         lv.setAdapter(adapter);
+
+        inputSearch.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                // When user changed the Text
+
+                adapter.getFilter().filter(cs);
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+                                          int arg3) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                // TODO Auto-generated method stub
+            }
+        });
+
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // The action bar home/up action should open or close the drawer.
-        // ActionBarDrawerToggle will take care of this.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

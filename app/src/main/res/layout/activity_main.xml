@@ -20,10 +20,10 @@
             android:id="@+id/textView1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Login"
+            android:text="DocLife"
             android:gravity="center"
             android:textColor="#ffffff"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="100dp"
             android:textStyle="bold"
             android:layout_marginBottom="20dp"
             android:textAppearance="?android:attr/textAppearanceLarge"/>
@@ -35,7 +35,7 @@
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:paddingLeft="20dp"
-            android:text="DocLife"
+            android:text="Login"
             android:textAlignment="center"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#1A237E"
@@ -68,18 +68,18 @@
             android:textSize="20dp"
             android:inputType="textPassword" />
 
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginLeft="15dp"
-            android:textColor="#fff"
-            android:background="#1A237E"
-            android:text="Login" />
-
     </LinearLayout>
 
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="360dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:textColor="#fff"
+        android:background="#1A237E"
+        android:layout_centerHorizontal="true"
+        android:text="Login" />
 
 </RelativeLayout>

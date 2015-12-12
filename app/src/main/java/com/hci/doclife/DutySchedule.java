@@ -1,10 +1,8 @@
 package com.hci.doclife;
 
-import android.app.ActionBar;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -13,7 +11,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.Menu;
@@ -23,11 +20,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,7 +31,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class OTSchedule extends ActionBarActivity implements DatePicker.OnDateChangedListener {
+public class DutySchedule extends ActionBarActivity implements DatePicker.OnDateChangedListener{
 
     private Toolbar toolbar;
     String TITLES[] = {"Patient Center", "Lab Report Center", "Search Dispensary", "OT Schedule", "Duty Schedule", "Emergency Center"};
@@ -55,12 +50,12 @@ public class OTSchedule extends ActionBarActivity implements DatePicker.OnDateCh
     Button setDateButton;
     TextView setDateTextView;
     TableLayout tableLayout;
-    List<OTScheduleList> list;
+    List<DutyScheduleList> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_otschedule);
+        setContentView(R.layout.activity_duty_schedule);
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);
@@ -73,7 +68,7 @@ public class OTSchedule extends ActionBarActivity implements DatePicker.OnDateCh
 
         mRecyclerView.setAdapter(mAdapter);                              // Setting the adapter to RecyclerView
 
-        final GestureDetector mGestureDetector = new GestureDetector(OTSchedule.this, new GestureDetector.SimpleOnGestureListener() {
+        final GestureDetector mGestureDetector = new GestureDetector(DutySchedule.this, new GestureDetector.SimpleOnGestureListener() {
 
             @Override
             public boolean onSingleTapUp(MotionEvent e) {
@@ -92,28 +87,28 @@ public class OTSchedule extends ActionBarActivity implements DatePicker.OnDateCh
             public boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent) {
                 View child = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
 
-
+                //launch activity for selected menu item from nav drawer
                 if (child != null && mGestureDetector.onTouchEvent(motionEvent)) {
                     Drawer.closeDrawers();
                     //Toast.makeText(DoctorMode.this, "The Item Clicked is: " + recyclerView.getChildPosition(child), Toast.LENGTH_SHORT).show();
                     if (recyclerView.getChildPosition(child) == 1) {
-                        Intent i = new Intent(OTSchedule.this, DoctorMode.class);
+                        Intent i = new Intent(DutySchedule.this, DoctorMode.class);
+                        startActivity(i);
+                    }
+                    if (recyclerView.getChildPosition(child) == 4) {
+                        Intent i = new Intent(DutySchedule.this, OTSchedule.class);
                         startActivity(i);
                     }
                     if (recyclerView.getChildPosition(child) == 2) {
-                        Intent i = new Intent(OTSchedule.this,LabReportCentre.class);
+                        Intent i = new Intent(DutySchedule.this,LabReportCentre.class);
                         startActivity(i);
                     }
                     if (recyclerView.getChildPosition(child) == 3) {
-                        Intent i = new Intent(OTSchedule.this,SearchDispensary.class);
-                        startActivity(i);
-                    }
-                    if (recyclerView.getChildPosition(child) == 5) {
-                        Intent i = new Intent(OTSchedule.this,DutySchedule.class);
+                        Intent i = new Intent(DutySchedule.this,SearchDispensary.class);
                         startActivity(i);
                     }
                     if (recyclerView.getChildPosition(child) == 6) {
-                        Intent i = new Intent(OTSchedule.this,EmergencyCenter.class);
+                        Intent i = new Intent(DutySchedule.this,EmergencyCenter.class);
                         startActivity(i);
                     }
                     return true;
@@ -155,21 +150,23 @@ public class OTSchedule extends ActionBarActivity implements DatePicker.OnDateCh
         Drawer.setDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
         mDrawerToggle.syncState();
 
+        //get day selected by user and highlight field in table accordingly
+
         setDateButton = (Button) findViewById(R.id.setDateButton);
         setDateTextView = (TextView) findViewById(R.id.setDateTextView);
         final Calendar calendar = Calendar.getInstance();
         setDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(OTSchedule.this);
-                DatePicker picker = new DatePicker(OTSchedule.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(DutySchedule.this);
+                DatePicker picker = new DatePicker(DutySchedule.this);
                 picker.setCalendarViewShown(false);
                 builder.setTitle("Select Date");
                 builder.setView(picker);
                 builder.setNegativeButton("Cancel", null);
                 builder.setPositiveButton("Set", null);
 
-                picker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), OTSchedule.this);
+                picker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), DutySchedule.this);
 
                 builder.show();
             }
@@ -177,48 +174,32 @@ public class OTSchedule extends ActionBarActivity implements DatePicker.OnDateCh
         int mon = calendar.get(Calendar.MONTH);
         mon++;
         setDateTextView.setText(calendar.get(Calendar.DAY_OF_MONTH) + " / " + mon + " / " + calendar.get(Calendar.YEAR));
-        tableLayout = (TableLayout) findViewById(R.id.otScheduleTable);
+        tableLayout = (TableLayout) findViewById(R.id.DutyScheduleTable);
         Date today = Calendar.getInstance().getTime();
         list = new ArrayList<>();
 
-        list.add(new OTScheduleList("OT#1", "Gynaecology", "Monday"));
-        list.add(new OTScheduleList("OT#2", "ENT", "Monday"));
-        list.add(new OTScheduleList("OT#3", "Cardiology", "Monday"));
-        list.add(new OTScheduleList("OT#4", "Emergency", "Monday"));
+        list.add(new DutyScheduleList("Dr. Mimansha Gupta", "Monday"));
 
-        list.add(new OTScheduleList("OT#1", "Oncology", "Tuesday"));
-        list.add(new OTScheduleList("OT#2", "Emergency", "Tuesday"));
-        list.add(new OTScheduleList("OT#3", "Nephrology", "Tuesday"));
-        list.add(new OTScheduleList("OT#4", "Neurology", "Tuesday"));
+        list.add(new DutyScheduleList("Dr. Manasi Jayaraman", "Tuesday"));
 
-        list.add(new OTScheduleList("OT#1", "General Surgery", "Wednesday"));
-        list.add(new OTScheduleList("OT#2", "Gynaecology", "Wednesday"));
-        list.add(new OTScheduleList("OT#3", "Emergency", "Wednesday"));
-        list.add(new OTScheduleList("OT#4", "Cardiology", "Wednesday"));
+        list.add(new DutyScheduleList("Dr. Kate Green", "Wednesday"));
 
-        list.add(new OTScheduleList("OT#1", "Emergency", "Thursday"));
-        list.add(new OTScheduleList("OT#2", "General Surgery", "Thursday"));
-        list.add(new OTScheduleList("OT#3", "Plastic Surgery", "Thursday"));
-        list.add(new OTScheduleList("OT#4", "Emergency", "Thursday"));
+        list.add(new DutyScheduleList("Dr. Mimansha Gupta", "Thursday"));
 
-        list.add(new OTScheduleList("OT#1", "Neurology", "Friday"));
-        list.add(new OTScheduleList("OT#2", "ENT", "Friday"));
-        list.add(new OTScheduleList("OT#4", "Emergency", "Friday"));
+        list.add(new DutyScheduleList("Dr. Manasi Jayaraman", "Friday"));
 
-        list.add(new OTScheduleList("OT#1", "Emergency", "Saturday"));
-        list.add(new OTScheduleList("OT#2", "Emergency", "Saturday"));
+        list.add(new DutyScheduleList("Dr. Kate Green", "Saturday"));
 
-        list.add(new OTScheduleList("OT#3", "Emergency", "Sunday"));
-        list.add(new OTScheduleList("OT#4", "Emergency", "Sunday"));
+        list.add(new DutyScheduleList("Dr. Mimansha Gupta", "Sunday"));
 
 
-        BuildTable(23, 3);
+        BuildTable(7, 2);
 
     }
 
     private void BuildTable(int rows, int cols) {
 
-        //build custom table with list items
+        //dynamically builds table with list items
 
         TableRow tableHead = new TableRow(this);
         tableHead.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -231,18 +212,11 @@ public class OTSchedule extends ActionBarActivity implements DatePicker.OnDateCh
         tableHead.addView(labelOT);
 
         TextView labelDepartment = new TextView(this);
-        labelDepartment.setText("Department");
+        labelDepartment.setText("Duty Specialist");
         labelDepartment.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
         labelDepartment.setBackgroundResource(R.drawable.cell_header);
         labelDepartment.setPadding(25,25,25,25);
         tableHead.addView(labelDepartment);
-
-        TextView labelDate = new TextView(this);
-        labelDate.setText("Day");
-        labelDate.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
-        labelDate.setBackgroundResource(R.drawable.cell_header);
-        labelDate.setPadding(25,25,25,25);
-        tableHead.addView(labelDate);
 
         tableLayout.addView(tableHead, new TableLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
@@ -259,13 +233,6 @@ public class OTSchedule extends ActionBarActivity implements DatePicker.OnDateCh
                 }
             });
 
-            TextView otnumber = new TextView(this);
-            String otnumberString = list.get(i).getOtName();
-            otnumber.setText(otnumberString);
-            otnumber.setPadding(25,25,25,25);
-            otnumber.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
-            otnumber.setBackgroundResource(R.drawable.cell_shape);
-            tableRow.addView(otnumber);
 
             TextView department = new TextView(this);
             String departmentString = list.get(i).getDepartment();
@@ -292,7 +259,7 @@ public class OTSchedule extends ActionBarActivity implements DatePicker.OnDateCh
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_otschedule, menu);
+        getMenuInflater().inflate(R.menu.menu_duty_schedule, menu);
         return true;
     }
 
@@ -311,6 +278,9 @@ public class OTSchedule extends ActionBarActivity implements DatePicker.OnDateCh
         return super.onOptionsItemSelected(item);
     }
 
+    //OnDateChanged highlights the selected date in the table
+
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         int m = monthOfYear;
@@ -323,12 +293,12 @@ public class OTSchedule extends ActionBarActivity implements DatePicker.OnDateCh
         //Log.d("mushu", dayOfWeek);
         //setDateTextView.setText(dayOfWeek);
 
-        for(int i=0;i<24;i++)
+        for(int i=0;i<8;i++)
         {
             TableRow row = (TableRow)tableLayout.getChildAt(i);
-            TextView rowData = (TextView)row.getChildAt(2); // get child index on particular row
+            TextView rowData = (TextView)row.getChildAt(1); // get child index on particular row
             String text = rowData.getText().toString();
-            for(int j = 0; j < 3; j++) {
+            for(int j = 0; j < 2; j++) {
                 rowData = (TextView)row.getChildAt(j);
                 if(dayOfWeek.equals(text)){
                     rowData.setBackgroundResource(R.color.ColorPrimary);

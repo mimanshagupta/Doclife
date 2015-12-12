@@ -18,17 +18,18 @@ import java.util.List;
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener{
 
-    private Toolbar toolbar;
+    private Toolbar toolbar; //for top toolbar
     private Button button1;
 
     @Override
     public void onClick(View v) {
         if(v.getId()== R.id.button1) {
 
-            final CharSequence[] list = {"Doctor", "Admin"};
+            final CharSequence[] list = {"Doctor", "Admin"}; //choices given to user
 
             Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
 
+            //alert dialog to allow user to select mode to open app in and intents fired accordingly
             AlertDialog.Builder modeSelect = new AlertDialog.Builder(MainActivity.this);
             modeSelect.setTitle("Select Mode");
             modeSelect.setItems(list, new DialogInterface.OnClickListener() {
@@ -36,6 +37,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 public void onClick(DialogInterface dialog, int which) {
                     if (which == 0) {
                         Intent i = new Intent(MainActivity.this, DoctorMode.class);
+                        startActivity(i);
+                    }
+                    if (which == 1) {
+                        Intent i = new Intent(MainActivity.this, AdminMode.class);
                         startActivity(i);
                     }
                 }
@@ -52,7 +57,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        button1 = (Button) findViewById(R.id.button1);
+        button1 = (Button) findViewById(R.id.button1); //login button
         button1.setOnClickListener(this);
         toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);

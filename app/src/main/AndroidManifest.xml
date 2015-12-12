@@ -3,6 +3,8 @@
     package="com.hci.doclife" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -25,6 +27,34 @@
         <activity
             android:name=".OTSchedule"
             android:label="@string/title_activity_otschedule" >
+        </activity>
+        <activity
+            android:name=".LabReportCentre"
+            android:label="@string/title_activity_lab_report_centre"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".AdminMode"
+            android:label="@string/title_activity_admin_mode"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".SearchDispensary"
+            android:label="@string/title_activity_search_dispensary"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".SearchDispensaryAdmin" />
+        <activity
+            android:name=".DutySchedule"
+            android:label="@string/title_activity_duty_schedule" >
+        </activity>
+        <activity
+            android:name=".EmergencyCenter"
+            android:label="@string/title_activity_emergency_center" >
+        </activity>
+        <activity
+            android:name=".FlashActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_flash"
+            android:theme="@style/FullscreenTheme" >
         </activity>
     </application>
 

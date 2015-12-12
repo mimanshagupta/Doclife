@@ -1,7 +1,7 @@
 package com.hci.doclife;
 
 /**
- * Created by Mimansha on 14/11/2015.
+ * Adapter for Navigation Drawer
  */
 import android.content.Context;
 import android.content.Intent;
